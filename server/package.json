@@ -1,0 +1,28 @@
+{
+  "name": "film-mania",
+  "version": "1.0.0",
+  "description": "film-mania",
+  "main": "index.js",
+  "scripts": {
+    "backend": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "concurrently \"npm run backend\" \"npm run start --prefix ../client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yubron",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.10.17"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
