@@ -1,62 +1,221 @@
-import React from 'react'
-import { blueGrey } from '@material-ui/core/colors' 
-import { DataGrid } from '@material-ui/data-grid';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState, forwardRef } from 'react'
+import { blueGrey } from '@material-ui/core/colors'
 import { Button } from '@material-ui/core'
+import Axios from 'axios';
 
-const useStyles = makeStyles({
-    root: {
-      '& .MuiDataGrid-root	': {
-        color:'white',
-      },
-      '& .MuiDataGrid-withBorder ': {
-        color:'blue'
-      },
+import PropTypes from 'prop-types';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+const useStyles1 = makeStyles((theme) => ({
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
 
-    },
-  });
+function TablePaginationActions(props) {
+  const classes = useStyles1();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onChangePage } = props;
 
-const columns = [
-    { field: 'id', headerName: '번호', width: 100 , sortable: false},
-    { field: 'title', headerName: '제목', width: 130 , sortable: false},
-    { field: 'writer', headerName: '작성자', width: 130 , sortable: false},
-    {
-      field: 'creDt',
-      headerName: '시간',
-      type: 'date',
-      sortable: false,
-      width: 90,
-    },
-  ];
-  
-  const rows = [
-    { id: 1, title: 'Snow', writer: 'Jon', creDt: '06:45' },
-    { id: 2, title: 'Lannister', writer: 'Cersei', creDt: 42 },
-    { id: 3, title: 'Lannister', writer: 'Jaime', creDt: 45 },
-    { id: 4, title: 'Stark', writer: 'Arya', creDt: 16 },
-    { id: 5, title: 'Targaryen', writer: 'Daenerys', creDt: null },
-    { id: 6, title: 'Melisandre', writer: null, creDt: 150 },
-    { id: 7, title: 'Clifford', writer: 'Ferrara', creDt: 44 },
-    { id: 8, title: 'Frances', writer: 'Rossini', creDt: 36 },
-    { id: 9, title: 'Roxie', writer: 'Harvey', creDt: 65 },
-  ];
+  const handleFirstPageButtonClick = (event) => {
+    onChangePage(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onChangePage(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onChangePage(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <div className={classes.root}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </div>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+
+
+const useStyles2 = makeStyles({
+  table: {
+    minWidth: 500,
+  },
+});
 
 function FreeBoard() {
-    const classes = useStyles();
 
-    return (
-        <div style={{backgroundColor: blueGrey[800], width: '100%', height: '100%'}} >
-            <br />
-            
-            <div style={{width:'90%', height:'75%', margin:'auto'}} className={classes.root}>
-              <DataGrid rows={rows} columns={columns} pageSize={15}  />  
-            </div>
-            <br />
-            <div style={{width:'90%', margin:'0 auto', textAlign:'end'}}>
-                <Button variant="contained" color="primary" href="/free/write" > 글쓰기 </Button>
-            </div>
-        </div>
-    )
+  const [rows, setPosts] = useState([])
+
+  useEffect(() => {
+    Axios.get("/api/post/free")
+      .then(response => {
+        if (response.data.success) {
+          setPosts(response.data.posts);
+        } else {
+          alert('자유게시판을 불러오는데 실패했습니다.')
+        }
+      });
+  }, [])
+
+  function createData(name, calories, fat) {
+    return { name, calories, fat };
+  }
+
+  const rows2 = [
+    createData('Cupcake', 305, 3.7),
+    createData('Donut', 452, 25.0),
+    createData('Eclair', 262, 16.0),
+    createData('Frozen yoghurt', 159, 6.0),
+    createData('Gingerbread', 356, 16.0),
+    createData('Honeycomb', 408, 3.2),
+    createData('Ice cream sandwich', 237, 9.0),
+    createData('Jelly Bean', 375, 0.0),
+    createData('KitKat', 518, 26.0),
+    createData('Lollipop', 392, 0.2),
+    createData('Marshmallow', 318, 0),
+    createData('Nougat', 360, 19.0),
+    createData('Oreo', 437, 18.0),
+  ];
+
+  const classes = useStyles2();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+
+  return (
+    <div style={{ backgroundColor: blueGrey[800], width: '100%', height: '100%' }} >
+      <br />
+
+      <div style={{ width: '90%', height: '75%', margin: 'auto' }}>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="custom pagination table">
+            <TableHead>
+              <TableRow>
+                  <TableCell style={{ width: '15%' }}>
+                     test
+                  </TableCell>
+                  <TableCell style={{ width: '25%' }}>
+                     test
+                  </TableCell>
+                  <TableCell style={{ width: '25%' }}>
+                     test
+                  </TableCell>
+                  <TableCell style={{ width: '35%' }}>
+                     test
+                  </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : rows
+              ).map((row) => (
+                <TableRow key={row.postId}>
+                  <TableCell component="th" scope="row">
+                    {row.title}
+                  </TableCell>
+                  <TableCell style={{ width: 160 }} align="right">
+                    {row.content}
+                  </TableCell>
+                  <TableCell style={{ width: 160 }} align="right">
+                    {row.content}
+                  </TableCell>
+                </TableRow>
+              ))}
+
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 530 }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[10]}
+                  colSpan={4}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: { 'aria-label': 'rows per page' },
+                    native: true,
+                  }}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+      </div>
+      <br /><br /><br /><br />
+      <div style={{ width: '90%', margin: '0 auto', textAlign: 'end' }}>
+        <Button variant="contained" color="primary" href="free/write" > 글쓰기 </Button>
+      </div>
+    </div>
+  )
 }
 
 export default FreeBoard

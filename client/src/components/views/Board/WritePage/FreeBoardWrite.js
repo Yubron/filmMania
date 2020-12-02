@@ -3,44 +3,48 @@ import { useSelector } from 'react-redux'
 import Axios from 'axios'
 import { TextField, Button } from '@material-ui/core';
 import { blueGrey } from '@material-ui/core/colors'
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 
 
 function FreeBoardWrite(props) {
+    const { enqueueSnackbar } = useSnackbar();
 
     const [values, setValues] = React.useState({
         title: '',
         content: '',
     });
-    const { enqueueSnackbar } = useSnackbar();
 
-    const handleChange = (prop) => (event) => {
-      setValues({ ...values, [prop]: event.target.value });
+    const handleChange = (event) => {
+        console.log("test");
+      setValues({ ...values, [event.target.name]: event.target.value });
     };
+
     const user = useSelector(state => state.user);
-    const writePost = () => {
+    const writePost = () => {   
+        
         const freeBoardInfo = {
             writer: user.userData._id,
             title : values.title,
             content : values.content,
+            type : 'free',
         };
 
-        Axios.post('/api/free/write', freeBoardInfo)
+        Axios.post('/api/post/free', freeBoardInfo)
         .then(response => {
             if(response.data.success) {
-                enqueueSnackbar('This is a success message!', 'success');
+                enqueueSnackbar('This is a success message!', {variant: 'success'});
                 setTimeout(() => {
                     
                 }, 1000);
-                props.history.push('/');
+                props.history.push('/board/free');
             } else {
                 alert('failed to upload video');
             }
         })
-
+        
     };
     return (
-        <SnackbarProvider maxSnack={3}>
+        
             <div style={{ backgroundColor: blueGrey[800], width: '100%', height: '100%' }}>
                 <br />
                 <div style={{width:'90%', margin:'20px auto 0px', textAlign:'center'}}> 
@@ -49,7 +53,7 @@ function FreeBoardWrite(props) {
                         id="outlined-adornment-title"
                         label="Title"
                         variant="outlined"
-                        startAdornment={<p>*</p>}
+                        name="title"
                         onChange = {handleChange}
                         color="secondary"
                         InputLabelProps={{
@@ -61,7 +65,6 @@ function FreeBoardWrite(props) {
                                 color: "white"
                             }
                         }}
-                        
                     />
                     <br/><br/><br/>
                     <TextField
@@ -71,7 +74,7 @@ function FreeBoardWrite(props) {
                         id="outlined-adornment-title"
                         label="Content"
                         variant="outlined"
-                        startAdornment={<p>*</p>}
+                        name="content"
                         onChange = {handleChange}
                         color="secondary"
                         InputLabelProps={{
@@ -88,7 +91,7 @@ function FreeBoardWrite(props) {
                     <Button style={{width:'250px'}} variant="contained" color="primary" onClick={writePost}> 등록 </Button>
                 </div>
             </div>
-        </SnackbarProvider>
+        
     )
 }
 

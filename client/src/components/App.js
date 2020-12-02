@@ -18,6 +18,7 @@ import Footer from "./views/Footer/Footer"
 import RightNavbar from "./views/Navbar/RightNavbar"
 import { blueGrey } from '@material-ui/core/colors'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { SnackbarProvider } from 'notistack';
 
 
 
@@ -41,33 +42,35 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <MuiThemeProvider theme={theme}>
-      <div style={{width: '100%', height: 'calc(100vh + 80px)', backgroundColor: blueGrey[900], color: 'white'}}>
-      <Suspense fallback={(<div>Loading...</div>)}>
-        <div style={{ width: '75%', height: 'calc(100vh - 80px)', margin: '0 auto 0 auto', backgroundColor: blueGrey[900] }}>
-          <Header />
-          <div style={{ display: 'flex', height: '100%', backgroundColor: blueGrey[900] }}>
-            <Navbar />
-            <div style={{ width: '65%', height: '100%', margin: '0 auto auto auto', backgroundColor: blueGrey[900] }}>
-              <Switch>
-                <Route exact path="/" component={Auth(LandingPage, null)} />
-                <Route exact path="/register" component={Auth(RegisterPage, null)} />
-                <Route exact path="/photo" component={Auth(PhotoBoard, null)} />
-                <Route exact path="/free" component={Auth(FreeBoard, null)} />
-                <Route exact path="/free/write" component={Auth(FreeBoardWrite, null)} />
-                <Route exact path="/question" component={Auth(QuestionBoard, null)} />
-                <Route exact path="/buy" component={Auth(BuyBoard, null)} />
-                <Route exact path="/sell" component={Auth(SellBoard, null)} />
-              </Switch>
+    <SnackbarProvider> 
+      <MuiThemeProvider theme={theme}>
+        <div style={{width: '100%', height: 'calc(100vh + 80px)', backgroundColor: blueGrey[900], color: 'white'}}>
+        <Suspense fallback={(<div>Loading...</div>)}>
+          <div style={{ width: '75%', height: 'calc(100vh - 80px)', margin: '0 auto 0 auto', backgroundColor: blueGrey[900] }}>
+            <Header />
+            <div style={{ display: 'flex', height: '100%', backgroundColor: blueGrey[900] }}>
+              <Navbar />
+              <div style={{ width: '65%', height: '100%', margin: '0 auto auto auto', backgroundColor: blueGrey[900] }}>
+                <Switch>
+                  <Route exact path="/" component={Auth(LandingPage, null)} />
+                  <Route exact path="/register" component={Auth(RegisterPage, null)} />
+                  <Route exact path="/photo" component={Auth(PhotoBoard, null)} />
+                  <Route exact path="/board/free" component={Auth(FreeBoard, null)} />
+                  <Route exact path="/board/free/write" component={Auth(FreeBoardWrite, true)} />
+                  <Route exact path="/question" component={Auth(QuestionBoard, null)} />
+                  <Route exact path="/buy" component={Auth(BuyBoard, null)} />
+                  <Route exact path="/sell" component={Auth(SellBoard, null)} />
+                </Switch>
+              </div>
+              <RightNavbar />
             </div>
-            <RightNavbar />
+            <Footer />
           </div>
-          <Footer />
-        </div>
 
-      </Suspense>
-    </div>  
-  </MuiThemeProvider>
+        </Suspense>
+      </div>  
+    </MuiThemeProvider>
+  </SnackbarProvider>
   );
 }
 

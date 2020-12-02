@@ -30,15 +30,15 @@ function NavBar() {
                     </MenuItem>
                     <hr style={{borderStyle:'dashed', color:blueGrey[700]}}  />
                     <MenuItem>
-                        <Typography variant="inherit"> <a href='/photo'>사진게시판</a></Typography>
+                        <Typography variant="inherit"> <a href='/board/photo'>사진게시판</a></Typography>
                     </MenuItem>
                     <hr style={{borderStyle:'dashed', color:blueGrey[700]}}  />
                     <MenuItem>
-                        <Typography variant="inherit"> <a href='/free'>자유게시판</a></Typography>
+                        <Typography variant="inherit"> <a href='/board/free'>자유게시판</a></Typography>
                     </MenuItem>
                     <hr style={{borderStyle:'dashed', color:blueGrey[700]}}  />
                     <MenuItem>
-                        <Typography variant="inherit"><a href='/question'>질문게시판</a> </Typography>
+                        <Typography variant="inherit"><a href='/board/question'>질문게시판</a> </Typography>
                     </MenuItem>
                 </MenuList>
             </Paper>
@@ -50,11 +50,11 @@ function NavBar() {
                     </MenuItem>
                     <hr style={{borderStyle:'dashed', color:blueGrey[700]}}  />
                     <MenuItem>
-                        <Typography variant="inherit"><a href='/buy'> 삽니다 </a></Typography>
+                        <Typography variant="inherit"><a href='/board/buy'> 삽니다 </a></Typography>
                     </MenuItem>
                     <hr style={{borderStyle:'dashed', color:blueGrey[700]}}  />
                     <MenuItem>
-                        <Typography variant="inherit"><a href='/sell'>팝니다 </a></Typography>
+                        <Typography variant="inherit"><a href='/board/sell'>팝니다 </a></Typography>
                     </MenuItem>
                 </MenuList>
             </Paper>
