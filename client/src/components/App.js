@@ -6,11 +6,11 @@ import LandingPage from "./views/LandingPage/LandingPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import PhotoBoard from "./views/Board/PhotoBoard.js"
 import FreeBoard from "./views/Board/FreeBoard.js"
-import FreeBoardWrite from "./views/Board/WritePage/FreeBoardWrite.js"
-import QuestionBoard from "./views/Board/QuestionBoard.js"
+import BoardWrite from "./views/Board/WritePage/BoardWrite.js"
+import QnaBoard from "./views/Board/QnaBoard.js"
 import BuyBoard from "./views/Market/BuyBoard.js"
 import SellBoard from "./views/Market/SellBoard.js"
-
+import DetailBoard from "./views/Board/DetailBoard.js"
 
 import Header from "./views/Header/Header"
 import Navbar from "./views/Navbar/Navbar"
@@ -19,6 +19,8 @@ import RightNavbar from "./views/Navbar/RightNavbar"
 import { blueGrey } from '@material-ui/core/colors'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
+
+
 
 
 
@@ -54,10 +56,11 @@ function App() {
                 <Switch>
                   <Route exact path="/" component={Auth(LandingPage, null)} />
                   <Route exact path="/register" component={Auth(RegisterPage, null)} />
-                  <Route exact path="/photo" component={Auth(PhotoBoard, null)} />
+                  <Route exact path="/board/photo" component={Auth(PhotoBoard, null)} />
                   <Route exact path="/board/free" component={Auth(FreeBoard, null)} />
-                  <Route exact path="/board/free/write" component={Auth(FreeBoardWrite, true)} />
-                  <Route exact path="/question" component={Auth(QuestionBoard, null)} />
+                  <Route exact path="/board/qna" component={Auth(QnaBoard, null)} />
+                  <Route exact path="/board/:postType/write" component={Auth(BoardWrite, true)} />
+                  <Route exact path="/board/:postType/:postId" component={Auth(DetailBoard, true)} />
                   <Route exact path="/buy" component={Auth(BuyBoard, null)} />
                   <Route exact path="/sell" component={Auth(SellBoard, null)} />
                 </Switch>

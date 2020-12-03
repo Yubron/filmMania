@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const postSchema = mongoose.Schema({
     postId: {
-        type:String,
+        type:Number,
         maxlength:50
     },
     type: {
@@ -49,9 +49,9 @@ postSchema.pre('save', function( next ) {
             return res.json({success: false, err});
         } else {
             if(post) {
-                newPost.postId = Number(post.postId) + 1;
+                newPost.postId = post.postId + 1;
             } else {
-                newPost.postId = 0;
+                newPost.postId = 1;
             }
             next();
         }

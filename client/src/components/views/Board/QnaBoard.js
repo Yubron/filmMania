@@ -92,11 +92,12 @@ const useStyles2 = makeStyles({
   },
 });
 
-function FreeBoard() {
+function QnaBoard() {
 
   const [posts, setPosts] = useState([])
+
   useEffect(() => {
-    Axios.get("/api/post/free")
+    Axios.get("/api/post/qna")
       .then(response => {
         if (response.data.success) {
           setPosts(response.data.posts);
@@ -125,8 +126,9 @@ function FreeBoard() {
   return (
     <div style={{ backgroundColor: blueGrey[800], width: '100%', height: '100%' }} >
       <br />
+
       <div style={{ width: '95%', height: '85%', margin: 'auto' }}>
-      <h2>자유게시판</h2>
+        <h2>자유게시판</h2>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="custom pagination table">
             <TableHead>
@@ -149,23 +151,23 @@ function FreeBoard() {
               {(rowsPerPage > 0
                 ? posts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : posts
-              ).map((post) => (
-                <TableRow key={post.postId}>
+              ).map((row) => (
+                <TableRow key={row.postId}>
                   <TableCell component="th" scope="row">
-                    {post.postId}
+                    {row.postId}
                   </TableCell>
                   <TableCell style={{ width: 160, maxWidth:160, overflow: 'auto' }} align="left">
                   <Link to={{
-                      pathname : `/board/free/${post.postId}`,
+                      pathname : `/board/qna/${row.postId}`,
                   }} style={{color: "black"}}>
-                    {post.title}
+                    {row.title}
                   </Link>
                   </TableCell>
                   <TableCell style={{ width: 160, maxWidth:160, overflow: 'auto'}} align="center">
-                      {post.writer.nickname}
+                      {row.writer.nickname}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="center">
-                    {post.views}
+                    {row.views}
                   </TableCell>
                 </TableRow>
               ))}
@@ -200,8 +202,10 @@ function FreeBoard() {
 
       <div style={{ width: '95%', margin: '0 auto', textAlign: 'end' }}>
         <Link to={{
-          pathname : '/board/free/write',
-          // state : { type : free }
+          pathname : `/board/qna/write`,
+          state : {
+            postType: 'qna'
+          }
         }}>
           <Button variant="contained" color="primary"> 글쓰기 </Button>
         </Link>
@@ -210,4 +214,4 @@ function FreeBoard() {
   )
 }
 
-export default FreeBoard
+export default QnaBoard

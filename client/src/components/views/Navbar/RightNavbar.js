@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Axios from 'axios';
 import { USER_SERVER } from '../../Config';
 import { useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { Redirect, Route } from "react-router";
+import { withRouter, Link } from 'react-router-dom';
 import { loginUser } from '../../../_actions/user_actions';
 import { blueGrey } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/core/styles';
@@ -102,7 +101,9 @@ function RightNavbar(props) {
                     />
 
                     <Button variant="contained" color="primary" onClick={loginHandler}> 로그인 </Button>
-                    <Button variant="contained" color="secondary" href="/register" > 회원가입 </Button>
+                    <Link to='/register'>   
+                        <Button variant="contained" color="secondary" style={{width: 'inherit'}}> 회원가입 </Button>
+                    </Link>
                 </form>
                 
             </div>

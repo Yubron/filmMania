@@ -6,37 +6,37 @@ import { blueGrey } from '@material-ui/core/colors'
 import { useSnackbar } from 'notistack';
 
 
-function FreeBoardWrite(props) {
+function BoardWrite(props) {
     const { enqueueSnackbar } = useSnackbar();
 
     const [values, setValues] = React.useState({
         title: '',
         content: '',
     });
-
+    const postType = props.match.params.postType;
+    
     const handleChange = (event) => {
-        console.log("test");
-      setValues({ ...values, [event.target.name]: event.target.value });
+        setValues({ ...values, [event.target.name]: event.target.value });
     };
 
     const user = useSelector(state => state.user);
     const writePost = () => {   
         
-        const freeBoardInfo = {
+        const boardInfo = {
             writer: user.userData._id,
             title : values.title,
             content : values.content,
-            type : 'free',
+            type : postType,
         };
 
-        Axios.post('/api/post/free', freeBoardInfo)
+        Axios.post(`/api/post/${postType}`, boardInfo)
         .then(response => {
             if(response.data.success) {
                 enqueueSnackbar('This is a success message!', {variant: 'success'});
                 setTimeout(() => {
                     
                 }, 1000);
-                props.history.push('/board/free');
+                props.history.push(`/board/${postType}`);
             } else {
                 alert('failed to upload video');
             }
@@ -95,4 +95,4 @@ function FreeBoardWrite(props) {
     )
 }
 
-export default FreeBoardWrite
+export default BoardWrite
