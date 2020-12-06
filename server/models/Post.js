@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const moment = require('moment-timezone');
+const dateKorean = moment.tz(Date.now(), "Asia/Seoul").format('YYYY-MM-DDTHH:mm:ss');
+
 
 const postSchema = mongoose.Schema({
     postId: {
@@ -36,12 +39,22 @@ const postSchema = mongoose.Schema({
         default: false,
     },
     delDt: {
-        type: Date
+        type: String
     },
-}, {timestamps:true});
+    createdDt : {
+        type: String,
+        default: dateKorean,
+    },
+    updatedDt : {
+        type: String,
+        default: dateKorean,
+    }
+
+});
 
 postSchema.pre('save', function( next ) {
     var newPost = this;
+    console.log(newPost.createdDt);
     Post.findOne({type: this.type})
     .sort('-postId')
     .exec(function(err, post) {

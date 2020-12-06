@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { Post } = require("../models/Post");
+const multer = require('multer');
+const path = require('path');
+
+
 
 //=================================
 //             Post
@@ -57,5 +61,24 @@ router.get('/qna', (req, res) => {
             res.status(200).json({ success: true, posts })
         });
 });
+
+const upload = multer({
+    storage: multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+      },
+      filename: function (req, file, cb) {
+        cb(null, file.originalname);
+      }
+    }),
+  });
+router.post('/photoFile', upload.array('file'), (req, res) => {
+
+  console.log('/account ' , req.body);
+  console.log(req.files);
+  console.log(req.files.name);
+  res.send({msg:'도착'});
+
+})
 
 module.exports = router;

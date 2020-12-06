@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
         default: 0 
     },
     birth : {
-        type:Date,
+        type:String,
     },
     image: String,
     token : {
