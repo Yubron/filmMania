@@ -65,7 +65,7 @@ function RightNavbar(props) {
     
     if (user.userData && !user.userData.isAuth) {
     return (
-        <div style={{backgroundColor:blueGrey[800] , width: '15%', height: '100%', margin: '0 1rem'}}>
+        <div style={{backgroundColor:blueGrey[800] , width: '15%', height: '100%',borderRadius:'10px' , margin: '0 1rem'}}>
             <div style={{border:'1px'}}>
                 <form className={classes.root} noValidate autoComplete="off" onSubmit={loginHandler}>
                     <TextField
@@ -111,7 +111,7 @@ function RightNavbar(props) {
     )}
     else {
         return (
-            <div style={{backgroundColor:blueGrey[800] , width: '15%', height: '100%', margin: '0 1rem'}}>
+            <div style={{backgroundColor:blueGrey[800] , width: '15%', minHeight: '100%', borderRadius:'10px', margin: '0 1rem'}}>
             <div style={{border:'1px'}}>
                 <form className={classes.root} noValidate autoComplete="off">
                     <TextField

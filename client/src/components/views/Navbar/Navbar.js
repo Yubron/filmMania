@@ -23,7 +23,7 @@ function NavBar() {
     const preventDefault = event => event.preventDefault();
 
     return (
-        <div style={{ backgroundColor: blueGrey[800], width: '15%', height: '100%', margin: '0 1rem' }}>
+        <div style={{ backgroundColor: blueGrey[800], width: '15%', minHeight: '80%', margin: '0 1rem' , borderRadius:'10px'}}>
             <Paper className={classes.root}>
                 <MenuList>
                     <MenuItem disabled style={{ color: 'white' }} >

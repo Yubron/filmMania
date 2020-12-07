@@ -123,10 +123,11 @@ function FreeBoard() {
 
 
   return (
-    <div style={{ backgroundColor: blueGrey[800], width: '100%', height: '100%' }} >
+    <div style={{ backgroundColor: blueGrey[800], width: '100%', height: '100%', borderRadius:'10px' }} >
       <br />
+      
       <div style={{ width: '95%', height: '85%', margin: 'auto' }}>
-      <h2>자유게시판</h2>
+        <h2>자유게시판</h2>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="custom pagination table">
             <TableHead>
@@ -197,8 +198,9 @@ function FreeBoard() {
           </Table>
         </TableContainer>
       </div>
-
+      <br /><br />
       <div style={{ width: '95%', margin: '0 auto', textAlign: 'end' }}>
+
         <Link to={{
           pathname : '/board/free/write',
           // state : { type : free }
@@ -207,6 +209,7 @@ function FreeBoard() {
         </Link>
       </div>
     </div>
+    
   )
 }
 

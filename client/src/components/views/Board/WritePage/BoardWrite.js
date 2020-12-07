@@ -38,7 +38,7 @@ function BoardWrite(props) {
                 }, 1000);
                 props.history.push(`/board/${postType}`);
             } else {
-                alert('failed to upload video');
+                alert('게시글 저장을 실패했어요');
             }
         })
         
@@ -47,7 +47,14 @@ function BoardWrite(props) {
         
             <div style={{ backgroundColor: blueGrey[800], width: '100%', height: '100%' }}>
                 <br />
-                <div style={{width:'90%', margin:'20px auto 0px', textAlign:'center'}}> 
+                <div style={{width:'95%', margin:'20px auto 0px', textAlign:'center'}}> 
+                {postType === 'free' &&
+                    <h2 style={{textAlign:'left'}}>자유게시판</h2>
+                }
+                {postType === 'qna' &&
+                    <h2 style={{textAlign:'left'}}>질문게시판</h2>
+                }
+
                     <TextField
                         fullWidth
                         id="outlined-adornment-title"
