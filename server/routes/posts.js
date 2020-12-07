@@ -3,7 +3,7 @@ const router = express.Router();
 const { Post } = require("../models/Post");
 const multer = require('multer');
 const path = require('path');
-
+const moment = require('moment');
 
 
 //=================================
@@ -62,22 +62,34 @@ router.get('/qna', (req, res) => {
         });
 });
 
+router.post('/photo', (req, res) => {
+    const post = new Post(req.body);
+
+    post.save((err, doc) => {
+        if (err) return res.status(400).json({ success: false, err })
+        res.status(200).json({ success: true, 'post': doc });
+    })
+})
+
 const upload = multer({
     storage: multer.diskStorage({
       destination: function (req, file, cb) {
         cb(null, 'uploads/');
       },
       filename: function (req, file, cb) {
-        cb(null, file.originalname);
+        cb(null, moment().format('YYMMDDhh:mm:ss') + '-' + file.originalname);
       }
     }),
   });
-router.post('/photoFile', upload.array('file'), (req, res) => {
 
+router.post('/photoFile', upload.array('file'), (req, res) => {
+  
   console.log('/account ' , req.body);
-  console.log(req.files);
-  console.log(req.files.name);
-  res.send({msg:'도착'});
+  console.log('---------------');
+  console.log(req.files[0]);
+  console.log('---------------');
+  console.log(req.files[0].filename);
+  res.status(200).json({ success: true, 'filename': req.files[0].filename });
 
 })
 

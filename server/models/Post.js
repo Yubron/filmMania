@@ -48,6 +48,9 @@ const postSchema = mongoose.Schema({
     updatedDt : {
         type: String,
         default: dateKorean,
+    },
+    photo: {
+        type: String,
     }
 
 });
